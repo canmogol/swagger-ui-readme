@@ -1,0 +1,113 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="./swagger/swagger-ui.css">
+    <link rel="icon" type="image/png" href="./swagger/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="./swagger/favicon-16x16.png" sizes="16x16"/>
+    <style>
+      html
+      {
+        box-sizing: border-box;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+      }
+
+      *,
+      *:before,
+      *:after
+      {
+        box-sizing: inherit;
+      }
+
+      body
+      {
+        margin:0;
+        background: #fafafa;
+      }
+
+        @media print {
+           #readmeDocumentation {
+            display: block;
+          }
+        }
+      #readmeDocumentation {
+        max-width: 1460px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      #readmeDocumentation pre {
+        background-color: #e1e1e1;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      #showReadmeDocumentation {
+        float: left;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #e1e1e1;
+      }
+    </style>
+
+</head>
+
+<body>
+
+<a href="javascript:void(0);" id="showReadmeDocumentation">show readme</a>
+
+<div id="readmeDocumentation" style="display: none;"></div>
+
+<div id="swagger-ui"></div>
+
+<script src="./swagger/swagger-ui-bundle.js"></script>
+<script src="./swagger/swagger-ui-standalone-preset.js"></script>
+<script>
+    window.onload = function() {
+      // Begin Swagger UI call region
+      const ui = SwaggerUIBundle({
+        url: "/v2/api-docs",
+        dom_id: '#swagger-ui',
+        docExpansion: 'none',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "StandaloneLayout"
+      })
+      // End Swagger UI call region
+
+      window.ui = ui
+    }
+
+</script>
+
+
+<!-- jQuery -->
+<script src="./swagger/jquery-3.3.1.min.js"></script>
+
+<!-- markdown to html -->
+<script src="./swagger/showdown-1.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.get("README.md", function (data) {
+            var converter = new showdown.Converter();
+            html = converter.makeHtml(data);
+            $("#readmeDocumentation").html(html);
+        });
+
+         $("#showReadmeDocumentation").click(function () {
+            $("#readmeDocumentation").toggle();
+         });
+    });
+</script>
+
+</body>
+</html>
